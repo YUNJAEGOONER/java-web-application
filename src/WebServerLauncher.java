@@ -2,6 +2,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WebServerLauncher {
     public static void main(String[] args) throws Exception{
@@ -17,12 +20,37 @@ public class WebServerLauncher {
                 //HTTP 요청을 한 줄씩 끊어 읽기
                 String line = bufferedReader.readLine();
 
-                while (!line.isEmpty()){
-                    System.out.println(line);
-                    line = bufferedReader.readLine();
+                if(line == null){
+                    continue;
                 }
 
-                String httpResponse = "HTTP/1.1 200 OK\r\n\r\n" + "Hello World!";
+                //startline
+                String [] startline = line.split(" ");
+                String httpMethod = startline[0];
+                String requestPath = startline[1];
+
+                //headers
+                Map<String, String> headers = new HashMap<>();
+                while ((line = bufferedReader.readLine()) != null){
+                    if(line.isEmpty()){
+                        break;
+                    }
+                    String [] header = line.split(": ");
+                    headers.put(header[0], header[1]);
+                }
+
+                String responseBody = "";
+
+                if(httpMethod.equals("GET") && requestPath.equals("/home")){
+                    responseBody = "<h1>레이싱 게임</h1>";
+                }
+
+                String httpResponse = "HTTP/1.1 200 OK\r\n" +
+                        "Content-Length: " + responseBody.getBytes(StandardCharsets.UTF_8).length + "\r\n" +
+                        "Content-Type: text/html; charset=UTF-8\r\n" +
+                        "\r\n" +
+                        responseBody;
+
                 clientSocket.getOutputStream().write(httpResponse.getBytes("UTF-8"));
             }
 
