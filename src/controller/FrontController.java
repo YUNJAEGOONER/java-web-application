@@ -1,5 +1,6 @@
 package controller;
 
+import http.HttpRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -14,14 +15,18 @@ public class FrontController {
 
     private void initControllerMap(){
         controllerMap.put(new MethodUrl("GET", "/home"), new ViewController());
+        controllerMap.put(new MethodUrl("POST", "/play-racing"), new RaceController());
     }
 
-    public String toController(){
+    public String toController(HttpRequest httpRequest){
 
-        String method = "GET";
-        String url = "/home";
+        String method = httpRequest.method();
+        String path = httpRequest.path();
 
-        Controller controller = controllerMap.get(new MethodUrl(method, url));
+        System.out.println("method = " + method);
+        System.out.println("path = " + path);
+
+        Controller controller = controllerMap.get(new MethodUrl(method, path));
 
         if(controller == null){
             return "ERROR";

@@ -10,16 +10,38 @@
         }
 
         h1 {
-            text-align: center; /* 가운데 정렬 */
+            text-align: center;
         }
 
         form {
             margin-bottom: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        fieldset {
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        legend {
+            font-weight: bold;
+            font-size: 18px;
+            padding: 0 10px;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
         }
 
         input[type="text"] {
             padding: 8px;
             font-size: 16px;
+            width: 80%;
+            margin-right: 8px;
         }
 
         button {
@@ -28,20 +50,20 @@
             cursor: pointer;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
+        #addButton {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
         }
 
-        li {
-            background: #f3f3f3;
-            margin-bottom: 5px;
-            padding: 8px;
-            border-radius: 4px;
+        #addButton:hover {
+            background-color: #218838;
         }
 
         #startButton {
             display: block;
+            width: 100%;
             margin-top: 30px;
             padding: 12px 20px;
             font-size: 18px;
@@ -61,43 +83,31 @@
 
 <h1>레이싱 게임</h1>
 
-<form id="nameForm">
-    <input type="text" id="username" placeholder="레이서의 이름 입력하세요" required>
-    <button type="submit">추가</button>
+<form id="nameForm" action="/play-racing" method="post">
+    <fieldset>
+        <legend>레이서 입력</legend>
+        <div id="inputContainer">
+            <div class="input-group">
+                <input type="text" name="racer" placeholder="레이서의 이름 입력하세요" required>
+            </div>
+        </div>
+        <button type="button" id="addButton">+ 레이서 추가</button>
+    </fieldset>
+
+    <button type="submit" id="startButton">🏁 경주시작하기</button>
 </form>
 
-<ul id="userList"></ul>
-
-<button id="startButton">🏁 경주시작하기</button>
-
 <script>
-    const form = document.getElementById('nameForm');
-    const input = document.getElementById('username');
-    const list = document.getElementById('userList');
-    const startButton = document.getElementById('startButton');
+    const inputContainer = document.getElementById('inputContainer');
+    const addButton = document.getElementById('addButton');
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault(); // 폼 새로고침 방지
-
-        const name = input.value.trim();
-        if (name === '') return; // 빈 값 방지
-
-        const li = document.createElement('li');
-        li.textContent = `레이서 : ${name}`; // 입력값 포맷 변경
-        list.appendChild(li);
-
-        input.value = '';
-        input.focus();
-    });
-
-    startButton.addEventListener('click', function() {
-        const names = Array.from(list.children).map(li => li.textContent);
-        if (names.length === 0) {
-            alert('참가자를 먼저 추가하세요!');
-            return;
-        }
-
-        alert('🏁 경주를 시작합니다!'); // 메시지 표시
+    addButton.addEventListener('click', () => {
+        const newInputGroup = document.createElement('div');
+        newInputGroup.classList.add('input-group');
+        newInputGroup.innerHTML = `
+            <input type="text" name="racer" placeholder="레이서의 이름 입력하세요" required>
+        `;
+        inputContainer.appendChild(newInputGroup);
     });
 </script>
 
