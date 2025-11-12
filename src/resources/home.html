@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>레이싱 게임</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1 {
+            text-align: center; /* 가운데 정렬 */
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 8px 12px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #f3f3f3;
+            margin-bottom: 5px;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        #startButton {
+            display: block;
+            margin-top: 30px;
+            padding: 12px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #startButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<h1>레이싱 게임</h1>
+
+<form id="nameForm">
+    <input type="text" id="username" placeholder="레이서의 이름 입력하세요" required>
+    <button type="submit">추가</button>
+</form>
+
+<ul id="userList"></ul>
+
+<button id="startButton">🏁 경주시작하기</button>
+
+<script>
+    const form = document.getElementById('nameForm');
+    const input = document.getElementById('username');
+    const list = document.getElementById('userList');
+    const startButton = document.getElementById('startButton');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // 폼 새로고침 방지
+
+        const name = input.value.trim();
+        if (name === '') return; // 빈 값 방지
+
+        const li = document.createElement('li');
+        li.textContent = `레이서 : ${name}`; // 입력값 포맷 변경
+        list.appendChild(li);
+
+        input.value = '';
+        input.focus();
+    });
+
+    startButton.addEventListener('click', function() {
+        const names = Array.from(list.children).map(li => li.textContent);
+        if (names.length === 0) {
+            alert('참가자를 먼저 추가하세요!');
+            return;
+        }
+
+        alert('🏁 경주를 시작합니다!'); // 메시지 표시
+    });
+</script>
+
+</body>
+</html>

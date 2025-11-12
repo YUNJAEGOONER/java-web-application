@@ -1,3 +1,4 @@
+import controller.FrontController;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
@@ -7,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WebServerLauncher {
+
+    private static final FrontController frontController = new FrontController();
+
     public static void main(String[] args) throws Exception{
 
         ServerSocket serverSocket = new ServerSocket(8080);
@@ -39,23 +43,12 @@ public class WebServerLauncher {
                     headers.put(header[0], header[1]);
                 }
 
-                String responseBody = "";
-
-                if(httpMethod.equals("GET") && requestPath.equals("/home")){
-                    responseBody = "<h1>레이싱 게임</h1>";
-                }
-
-                String httpResponse = "HTTP/1.1 200 OK\r\n" +
-                        "Content-Length: " + responseBody.getBytes(StandardCharsets.UTF_8).length + "\r\n" +
-                        "Content-Type: text/html; charset=UTF-8\r\n" +
-                        "\r\n" +
-                        responseBody;
+                String httpResponse = frontController.toController();
 
                 clientSocket.getOutputStream().write(httpResponse.getBytes("UTF-8"));
             }
 
         }
-
 
     }
 }
