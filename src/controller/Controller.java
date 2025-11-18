@@ -1,9 +1,9 @@
 package controller;
 
+import http.HttpRequest;
+
 public interface Controller {
 
-    public String doLogic();
-
-    public String getName();
+    public String doLogic(HttpRequest httpRequest);
 
 }

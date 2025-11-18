@@ -14,7 +14,7 @@ public class FrontController {
     }
 
     private void initControllerMap(){
-        controllerMap.put(new MethodUrl("GET", "/home"), new ViewController());
+        controllerMap.put(new MethodUrl("GET", "/home"), new HomeController());
         controllerMap.put(new MethodUrl("POST", "/play-racing"), new RaceController());
     }
 
@@ -23,16 +23,13 @@ public class FrontController {
         String method = httpRequest.method();
         String path = httpRequest.path();
 
-        System.out.println("method = " + method);
-        System.out.println("path = " + path);
-
         Controller controller = controllerMap.get(new MethodUrl(method, path));
 
         if(controller == null){
             return "ERROR";
         }
 
-        return controller.doLogic();
+        return controller.doLogic(httpRequest);
     }
 
     public static class MethodUrl{
