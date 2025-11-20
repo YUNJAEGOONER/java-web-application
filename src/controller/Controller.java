@@ -1,9 +1,10 @@
 package controller;
 
 import http.HttpRequest;
+import http.HttpResponse;
 
 public interface Controller {
 
-    public String doLogic(HttpRequest httpRequest);
+    public HttpResponse doLogic(HttpRequest httpRequest);
 
 }

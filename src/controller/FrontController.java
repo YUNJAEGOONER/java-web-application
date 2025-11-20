@@ -1,6 +1,7 @@
 package controller;
 
 import http.HttpRequest;
+import http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -15,18 +16,21 @@ public class FrontController {
 
     private void initControllerMap(){
         controllerMap.put(new MethodUrl("GET", "/home"), new HomeController());
-        controllerMap.put(new MethodUrl("POST", "/play-racing"), new RaceController());
+        //controllerMap.put(new MethodUrl("POST", "/play-racing"), new RaceController());
     }
 
-    public String toController(HttpRequest httpRequest){
+    public HttpResponse toController(HttpRequest httpRequest){
 
         String method = httpRequest.method();
         String path = httpRequest.path();
 
+        System.out.println("method = " + method);
+        System.out.println("path = " + path);
+
         Controller controller = controllerMap.get(new MethodUrl(method, path));
 
         if(controller == null){
-            return "ERROR";
+            return new HttpResponse("HTTP 1.1", "404 not found", new HashMap<>(), null);
         }
 
         return controller.doLogic(httpRequest);

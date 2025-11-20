@@ -1,6 +1,8 @@
 import controller.FrontController;
 import http.HttpRequest;
 import http.HttpRequestParser;
+import http.HttpResponse;
+import http.HttpResponseBuilder;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
@@ -11,6 +13,7 @@ public class WebServerLauncher {
 
     private static final FrontController frontController = new FrontController();
     private static final HttpRequestParser httpRequestParser = new HttpRequestParser();
+    private static final HttpResponseBuilder HTTP_RESPONSE_BUILDER = new HttpResponseBuilder();
 
     public static void main(String[] args) throws Exception{
 
@@ -28,9 +31,9 @@ public class WebServerLauncher {
                     continue;
                 }
 
-                String httpResponse = frontController.toController(optionalHttpRequest.get());
-
-                clientSocket.getOutputStream().write(httpResponse.getBytes("UTF-8"));
+                HttpResponse httpResponse = frontController.toController(optionalHttpRequest.get());
+                String response = HTTP_RESPONSE_BUILDER.httpResponseToString(httpResponse);
+                clientSocket.getOutputStream().write(response.getBytes("UTF-8"));
             }
 
         }
