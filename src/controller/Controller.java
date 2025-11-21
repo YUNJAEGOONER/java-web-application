@@ -5,6 +5,6 @@ import http.HttpResponse;
 
 public interface Controller {
 
-    public HttpResponse doLogic(HttpRequest httpRequest);
+    HttpResponse doLogic(HttpRequest httpRequest);
 
 }

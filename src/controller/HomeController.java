@@ -28,7 +28,6 @@ public class HomeController implements Controller{
             headers.put("Content-Type", "text/html; charset=UTF-8");
 
             return new HttpResponse(version, status, headers, responseBody);
-
         }
         catch (Exception e){
             System.out.print("ERROR");

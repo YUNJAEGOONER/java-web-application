@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class FrontController {
 
-    private Map<MethodUrl, Controller> controllerMap = new HashMap<>();
+    private final Map<MethodUrl, Controller> controllerMap = new HashMap<>();
 
     public FrontController(){
         initControllerMap();
@@ -46,8 +46,8 @@ public class FrontController {
         public boolean equals(Object obj) {
             if(obj instanceof MethodUrl){
                 MethodUrl methodUrl = (MethodUrl) obj;
-                return Objects.equals(methodUrl.method,this.method) &&
-                        Objects.equals(methodUrl.url, this.url);
+                return methodUrl.method.equals(this.method) &&
+                        methodUrl.url.equals(this.url);
             }
             return false;
         }

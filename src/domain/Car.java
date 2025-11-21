@@ -1,12 +1,16 @@
 package domain;
 
-public class Car implements Comparable<Car>{
+import exception.ExceptionCode;
+import exception.RacingGameException;
+
+public class Car{
 
     private final String name;
 
     private int distance = 0;
 
     public Car(String name){
+        validatePlayerName(name);
         this.name = name;
     }
 
@@ -22,9 +26,11 @@ public class Car implements Comparable<Car>{
         this.distance ++;
     }
 
-    @Override
-    public int compareTo(Car car) {
-        return car.getDistance() - this.distance;
+    private void validatePlayerName(String name){
+        System.out.println(name.length());
+        if(name.isBlank() || name.length() > 10){
+            throw new RacingGameException(ExceptionCode.RACER_NAME_LENGTH_LIMIT);
+        }
     }
 
 }

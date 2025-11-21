@@ -1,13 +1,17 @@
 package controller;
 
+import domain.Car;
+import exception.ExceptionCode;
+import exception.RacingGameException;
 import http.HttpRequest;
 import http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import domain.Car;
 import java.util.Map;
+import java.util.Set;
 
 public class RaceController implements Controller {
 
@@ -17,14 +21,17 @@ public class RaceController implements Controller {
 
     @Override
     public HttpResponse doLogic(HttpRequest httpRequest) {
-
         String body = httpRequest.body();
         String[] players = body.split("racer=|&racer=");
+        try{
+            checkDuplicateName(players);
+            initGame(players);
+            playGame();
+            return createResponse();
+        } catch (RacingGameException e) {
+            return createException(e.getExceptionCode().getErrorMsg());
+        }
 
-        initGame(players);
-        playGame();
-
-        return createResponse();
     }
 
     public void initGame(String[] players) {
@@ -48,6 +55,18 @@ public class RaceController implements Controller {
 
     public int generateRandomNumber() {
         return (int) (Math.random() * 10);
+    }
+
+    public void checkDuplicateName(String [] players){
+        Set<String> racers = new HashSet<>();
+
+        for(int i = 0 ; i < players.length ; i ++ ){
+            racers.add(players[i]);
+        }
+
+        if(racers.size() != players.length){
+            throw new RacingGameException(ExceptionCode.RACER_NAME_DUPLICATE);
+        }
     }
 
     private HttpResponse createResponse() {
@@ -129,6 +148,24 @@ public class RaceController implements Controller {
         sb.append("</body></html>");
 
         return sb.toString();
+    }
+
+    private HttpResponse createException(String message) {
+
+        String version = "HTTP/1.1";
+        String status = "400 BAD REQUEST";
+
+        String responseBody = "<script> "
+                + "alert('" + message + "'); "
+                + "history.back();"
+                + "</script>";
+
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put("Content-Length", Integer.toString(responseBody.getBytes(StandardCharsets.UTF_8).length));
+        headers.put("Content-Type", "text/html; charset=UTF-8");
+
+        return new HttpResponse(version, status, headers, responseBody);
     }
 
 
