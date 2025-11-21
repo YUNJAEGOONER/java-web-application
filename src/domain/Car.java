@@ -27,7 +27,6 @@ public class Car{
     }
 
     private void validatePlayerName(String name){
-        System.out.println(name.length());
         if(name.isBlank() || name.length() > 10){
             throw new RacingGameException(ExceptionCode.RACER_NAME_LENGTH_LIMIT);
         }
