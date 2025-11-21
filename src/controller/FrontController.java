@@ -16,7 +16,7 @@ public class FrontController {
 
     private void initControllerMap(){
         controllerMap.put(new MethodUrl("GET", "/home"), new HomeController());
-        //controllerMap.put(new MethodUrl("POST", "/play-racing"), new RaceController());
+        controllerMap.put(new MethodUrl("POST", "/play-racing"), new RaceController());
     }
 
     public HttpResponse toController(HttpRequest httpRequest){
