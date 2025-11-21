@@ -24,13 +24,10 @@ public class FrontController {
         String method = httpRequest.method();
         String path = httpRequest.path();
 
-        System.out.println("method = " + method);
-        System.out.println("path = " + path);
-
         Controller controller = controllerMap.get(new MethodUrl(method, path));
 
         if(controller == null){
-            return new HttpResponse("HTTP 1.1", "404 not found", new HashMap<>(), null);
+            controller = controllerMap.get(new MethodUrl("GET" , "/home")); // 존재하지 않는 경로로 요청 시, home 화면으로 이동
         }
 
         return controller.doLogic(httpRequest);

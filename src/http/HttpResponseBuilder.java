@@ -7,15 +7,15 @@ public class HttpResponseBuilder {
         StringBuilder sb = new StringBuilder();
 
         //Status Line
-        sb.append(httpResponse.version()).append(" ").append(httpResponse.status()).append('\n');
+        sb.append(httpResponse.version()).append(" ").append(httpResponse.status()).append("\r\n");
 
         //headers
         Map<String, String> headers = httpResponse.headers();
         for(String key : headers.keySet()){
-            sb.append(key).append(": ").append(headers.get(key)).append('\n');
+            sb.append(key).append(": ").append(headers.get(key)).append("\r\n");
         }
 
-        sb.append('\n');
+        sb.append("\r\n");
 
         //body
         sb.append(httpResponse.body());
