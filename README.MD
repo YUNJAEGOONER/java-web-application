@@ -9,6 +9,8 @@
 - HttpRequestParser를 통해 서버로 들어온 Http 요청을 파싱
 - HashMap을 활용하여 요청을 적절한 Controller에 위임
 - HttpResponseBuilder를 통해 Controller에서 생성된 HttpResponse를 반환할 수 있는 형태로 변형
+- Racer이름 중복 또는 10글자 이상의 이름이 입력되는 경우 Alert가 발생하도록 구현
+  <img width="1252" height="387" alt="Image" src="https://github.com/user-attachments/assets/fd3b8d26-8be4-4c81-87c0-675b7927a465" />
 
 
 ### 파일 구조
